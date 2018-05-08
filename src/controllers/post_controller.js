@@ -6,6 +6,7 @@ export const createPost = (req, res) => {
   post.tags = req.body.tags;
   post.content = req.body.content;
   post.cover_url = req.body.cover_url;
+  post.created_at = new Date();
   post.save()
     .then((result) => {
       res.json({ message: 'Post created!', post });
@@ -16,12 +17,8 @@ export const createPost = (req, res) => {
 };
 
 export const getPosts = (req, res) => {
-  Post.find({})
+  Post.find({}, { content: 0 }).sort({ created_at: -1 })
     .then((result) => {
-      // remove content for each post, don't want to include here
-      for (let i = 0; i < result.length; i++) {
-        delete (result[i].content);
-      }
       res.send(result);
     })
     .catch((error) => {
