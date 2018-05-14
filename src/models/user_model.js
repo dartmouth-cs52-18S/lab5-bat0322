@@ -3,11 +3,11 @@ import bcrypt from 'bcryptjs';
 
 const UserSchema = new Schema({
   email: { type: String, unique: true, lowercase: true },
-  password: { type: String, select: false },
-}, {
-  toJSON: {
-    virtuals: true,
-  },
+  password: { type: String },
+});
+
+UserSchema.set('toJSON', {
+  virtuals: true,
 });
 
 UserSchema.pre('save', function beforeUserSave(next) {
@@ -21,12 +21,14 @@ UserSchema.pre('save', function beforeUserSave(next) {
   const hash = bcrypt.hashSync(user.password, salt);
 
   user.password = hash;
+  console.log(user);
   return next();
 });
 
 UserSchema.methods.comparePassword = function comparePassword(candidatePassword, callback) {
   // return callback(null, comparisonResult) for success
   // or callback(error) in the error case
+  console.log(this);
   bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
     if (err) return callback(err);
     return callback(null, isMatch);

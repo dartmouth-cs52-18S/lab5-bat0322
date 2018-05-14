@@ -22,8 +22,4 @@ router.route('/posts/:id')
 router.post('/signin', requireSignin, UserController.signin);
 router.post('/signup', UserController.signup);
 
-// router.post(requireAuth, Posts.createPost);
-// router.post(requireAuth, Posts.updatePost);
-// router.post(requireAuth, Posts.deletePost);
-
 export default router;

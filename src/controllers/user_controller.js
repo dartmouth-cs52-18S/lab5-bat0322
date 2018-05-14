@@ -23,17 +23,17 @@ export const signup = (req, res, next) => {
     return res.status(422).send('You must provide email and password');
   }
 
-  User.find({ user: userEmail.toLowerCase() }, (err, user) => {
+  User.findOne({ user: userEmail.toLowerCase() }, (err, user) => {
     if (err) {
       return res.status(500).send(err);
     } else if (user) {
-      return res.status(422).send('There is already an account assoicated with this email');
+      return res.status(422).send('There is already an account associated with this email');
     } else {
       const newUser = new User();
       newUser.email = userEmail;
       newUser.password = userPassword;
       newUser.save();
-      return res.send({ token: tokenForUser(req.user) });
+      return res.send({ token: tokenForUser(newUser) });
     }
   });
 
