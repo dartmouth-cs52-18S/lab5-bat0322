@@ -7,6 +7,7 @@ export const createPost = (req, res) => {
   post.content = req.body.content;
   post.cover_url = req.body.cover_url;
   post.created_at = new Date();
+  post.author = req.user;
   post.save()
     .then((result) => {
       res.json({ message: 'Post created!', post });

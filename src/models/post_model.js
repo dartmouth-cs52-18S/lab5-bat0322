@@ -6,6 +6,7 @@ const PostSchema = new Schema({
   content: String,
   cover_url: String,
   created_at: Date,
+  author: { type: Schema.Types.ObjectId, ref: 'User' },
 }, {
   toJSON: {
     options: true,
