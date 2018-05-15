@@ -18,6 +18,8 @@ export const signin = (req, res, next) => {
 export const signup = (req, res, next) => {
   const userEmail = req.body.email;
   const userPassword = req.body.password;
+  const userName = req.body.username;
+  console.log(userName);
 
   if (!userEmail || !userPassword) {
     return res.status(422).send('You must provide email and password');
@@ -30,20 +32,11 @@ export const signup = (req, res, next) => {
       return res.status(422).send('There is already an account associated with this email');
     } else {
       const newUser = new User();
+      newUser.username = req.body.username;
       newUser.email = userEmail;
       newUser.password = userPassword;
       newUser.save();
       return res.send({ token: tokenForUser(newUser) });
     }
   });
-
-  // if (User.find({ user: userEmail.toLowerCase() })) {
-  //   return res.status(422).send('There is already an account assoicated with this email');
-  // } else {
-  //   const user = new User();
-  //   user.email = userEmail;
-  //   user.password = userPassword;
-  //   user.save();
-  //   return res.send({ token: tokenForUser(req.user) });
-  // }
 };
